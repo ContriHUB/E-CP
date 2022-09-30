@@ -4,9 +4,10 @@ A **CLI tool** with a variety of features to help in practicing competitive prog
 
 ### Features: 
 
-+ Create dedicated folders for a specific problem
++ Create dedicated folders for a specific problem, with output and expected files
 + Create test sessions for a specific problem
-+ 
++ Default code template can be added
++ Cpp and Python supported
 
 ## Getting Started
 
@@ -57,6 +58,6 @@ A **CLI tool** with a variety of features to help in practicing competitive prog
 
 A list of contributors can be found in [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
-## Maintainers
+## Maintainer
 
 - [Alok Kumar Singh](https://github.com/akstron)
