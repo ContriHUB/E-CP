@@ -47,7 +47,7 @@
 
 *   Stop a test session using: 
     ```
-    ecp test stop
+    ecp test end
     ```
 
 *   Get remaining time duration in a test using: 
