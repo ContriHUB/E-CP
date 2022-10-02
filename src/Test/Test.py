@@ -13,6 +13,7 @@ from .server.RequestHandler import RequestHandler
 from .server.ServerThread import ServerThread
 from .Message import Message
 from .client.Client import Client
+from .converter import convert_time
 
 class Test():
     def __init__(self) -> None:
@@ -88,19 +89,6 @@ class Test():
             client.send_message(send_message)
 
             rec_message = client.receive_message()
-
             time_rem = rec_message.message
-            minutes = time_rem//60
-            seconds = time_rem%60
-
-            print_message = ''
-            if(minutes > 0):
-                print_message += f'{minutes} minute'
-                if(minutes > 1):
-                    print_message += 's'
-                
-                print_message += ' '
-            
-            print_message += f'{seconds} seconds'
-
+            print_message = convert_time(time_rem)
             click.echo(print_message)
