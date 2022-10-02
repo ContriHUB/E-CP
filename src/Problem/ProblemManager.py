@@ -40,7 +40,10 @@ class ProblemManager:
         if lang not in ext_map:
             raise UnsupportedLanguage(lang)
 
-        code_file_path = Path(dir, f'code.{ext_map[lang]}')
+        if lang == 'java':
+            code_file_path = Path(dir, 'Code.java')
+        else:
+            code_file_path = Path(dir, f'code.{ext_map[lang]}')
         
         ''' 
             'w' with overwrite the file, even if we don't write anything 
