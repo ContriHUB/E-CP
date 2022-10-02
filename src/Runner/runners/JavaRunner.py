@@ -15,7 +15,9 @@ class JavaRunner(Runner):
         self.exec_file = Path(dest, code_file[:-5])
 
     def __compile_code(self):
-        return subprocess.run(['javac', self.code_file], capture_output=True, text=True)
+        compile_result = subprocess.run(['javac', self.code_file], capture_output=True, text=True)
+        if compile_result.returncode != 0:
+            raise CodeError(compile_result.stderr, 'compile error', compile_result.returncode)
 
     def __execute_code(self, stdin = None):
         return subprocess.run(['java', self.exec_file], capture_output=True, text=True, stdin=stdin)
