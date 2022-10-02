@@ -7,7 +7,7 @@ from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
     Class to manage config related commands
 '''
 class Config():
-    supported_lang = ['cpp', 'python']
+    supported_lang = ['cpp', 'python', 'java']
 
     def __init__(self) -> None:
         self.config_file_path = self.get_config_path()
