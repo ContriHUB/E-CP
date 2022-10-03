@@ -20,6 +20,20 @@
     This will change the runtime environment. 
     Currently value of `<language>` can only be 'python' or 'cpp' are supported
 
+*   ```
+    ecp config set-proxy <username:password@ip:port>
+    ```
+    Example: 
+    ```
+    ecp config set-proxy <edcguest:edcguest@172.31.102.29:3128>
+    ```
+    This will change the proxy settings.
+
+*   ```
+    ecp config remove-proxy
+    ```
+    This will remove the proxy settings.
+
 *   Change directory to the problem directory created by the first command, and then use:
     ```
     ecp run
