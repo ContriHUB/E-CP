@@ -7,13 +7,14 @@ import click
 import os
 from ..Scrapers.CFScraper import CFScraper
 from ..Problem.ProblemManager import ProblemManager
+from ..Config.Config import Config
 
 @click.command()
 @click.argument('url', type=str)
 @click.argument('dest', type=str, default='.')
 def problem(dest, url):
     try:
-        scraper = CFScraper(url)
+        scraper = CFScraper(url, Config().get_proxy())
         problem = scraper.get_problem()
 
         # Create directory

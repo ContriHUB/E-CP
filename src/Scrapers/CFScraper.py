@@ -4,15 +4,28 @@
 
 import requests
 from bs4 import BeautifulSoup
-
+from requests.auth import HTTPProxyAuth
 from .Scraper import Scraper
 from ..Problem.Problem import Problem
 from ..Problem.Test import Test
 
 class CFScraper(Scraper):
-    def __init__(self, url) -> None:
+    def __init__(self, url, proxy = "") -> None:
         super().__init__(url)
-        response = requests.get(url)
+        auth = None
+        user, password = "", ""
+        if len(proxy)!=0:
+            if proxy.find('@') != -1:
+                auth , proxy = proxy.split('@')
+            proxy = {
+                "http":"http://"+proxy,
+                "https":"https://"+proxy,
+                "ftp":"ftp://"+proxy
+                }
+            if len(auth) != 0:
+                user, password = auth.split(':')
+        response = ""
+        response = requests.get(url,proxies=proxy,auth = HTTPProxyAuth(user, password),verify=False)
         html_content = response.content
         self.soup = BeautifulSoup(html_content, 'lxml')
 

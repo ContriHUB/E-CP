@@ -54,3 +54,35 @@ class Config():
             config = json.load(config_file)
         
         return config['template']
+
+    def set_proxy(self, proxy):
+        with open(self.config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            ip_address = ""
+            user, password = "", ""
+            if proxy.find('@') != -1:
+                auth , ip_address = proxy.split('@')
+            if len(auth) != 0:
+                user, password = auth.split(':')
+            address = {"http":"htpp://"+auth+':'+password+'@'+ip_address,"https":"https://"+auth+':'+password+'@'+ip_address}
+            config['proxy'] = address
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
+
+    def get_proxy(self):
+        config_file_path = self.config_file_path
+    
+        with open(config_file_path, 'r') as config_file:
+            config = json.load(config_file)
+        if len(config['proxy'])!=0:
+            return ""
+        return config['proxy']
+
+    def remove_proxy(self):
+        with open(self.config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            config['proxy'] = ""
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
