@@ -29,6 +29,11 @@
     ```
     This will change the proxy settings.
 
+*   ```
+    ecp config remove-proxy
+    ```
+    This will remove the proxy settings.
+
 *   Change directory to the problem directory created by the first command, and then use:
     ```
     ecp run
