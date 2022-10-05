@@ -37,6 +37,11 @@
     ```
     `<dest>` is the absolute template file path
 
+*   Get current runtime environment language using:
+    ```
+    ecp config get-lang
+    ```
+
 *   Start a test session using:
     ```
     ecp test start <time>
