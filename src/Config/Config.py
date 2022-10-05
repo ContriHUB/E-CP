@@ -54,3 +54,19 @@ class Config():
             config = json.load(config_file)
         
         return config['template']
+
+    def set_proxy(self, address):
+        with open(self.config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            config['proxy'] = address
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
+
+    def remove_proxy(self):
+        with open(self.config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            config['proxy'] = ""
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
