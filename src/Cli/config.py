@@ -33,5 +33,15 @@ def set_temp(path):
     except Exception as e:
         click.echo(e)
 
+@click.command()
+def get_lang():
+    try:
+        config = Config()
+        lang = config.get_lang()
+        click.echo(click.style('Current Enviroment language : ' + lang))
+    except Exception as e:
+        click.echo(e)
+
+config.add_command(get_lang)
 config.add_command(set_lang)
 config.add_command(set_temp)
