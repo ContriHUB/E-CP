@@ -54,3 +54,11 @@ class Config():
             config = json.load(config_file)
         
         return config['template']
+
+    def is_text_file(self, file_name):
+        try:
+            with open(file_name, 'tr') as check_file:
+                check_file.read()
+                return True
+        except:
+            return False
