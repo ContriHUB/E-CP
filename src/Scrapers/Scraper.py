@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 import json
 import os
+import requests
 from pathlib import Path
+from ..Config.Config import Config
 '''
     Scraper abstract class
 '''
@@ -10,14 +12,15 @@ class Scraper:
     def __init__(self, url) -> None:
         self.url = url
 
+    def get_response(self):
+        # Because request only makes http request calls, change our https link to http
+        protocol , link = self.url.split(':')
+        protocol = 'http'
+        url = protocol + ':'+link
+        proxy = Config().get_proxy()
+        response = requests.get(url,proxies = proxy,verify = False)
+        return response
+
     @abstractmethod
     def get_problem(self):
         pass
-    
-    def get_proxy(self):
-        config_file_path = config_file_path = Path(os.path.dirname(os.path.realpath(__file__)), '../Config/config.json')
-        with open(config_file_path, 'r') as config_file:
-            config = json.load(config_file)
-        proxy =  config['proxy']
-        proxy = {'http':'http://'+proxy,'https':'https://'+proxy}
-        return proxy

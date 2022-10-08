@@ -60,8 +60,8 @@ def set_proxy(proxy):
 @click.command()
 def remove_proxy():
     try:
-        scrapper = Scraper()
-        scrapper.remove_proxy()
+        config = Config()
+        config.remove_proxy()
         click.echo(click.style('Proxy removed sucessfully.', fg='green'))
     except Exception as e:
         click.echo(e)

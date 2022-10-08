@@ -12,12 +12,7 @@ from ..Problem.Test import Test
 class CFScraper(Scraper):
     def __init__(self, url) -> None:
         super().__init__(url)
-        # Because request only makes http request calls, change our https link to http
-        protocol , link = url.split(':')
-        protocol = 'http'
-        url = protocol + ':'+link
-        proxy = Scraper(url).get_proxy()
-        response = requests.get(url,proxies = proxy,verify = False)
+        response = self.get_response()
         html_content = response.content
         self.soup = BeautifulSoup(html_content, 'lxml')
 
