@@ -76,7 +76,7 @@ class Config():
             config = json.load(config_file)
         proxy =  config['proxy']
         if len(proxy)==0:
-            proxy = None
+            proxy = {'http':None,'https':None}
         else:
             proxy = {'http':'http://'+proxy,'https':'https://'+proxy}
         return proxy
