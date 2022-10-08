@@ -12,7 +12,7 @@ from ..Problem.Test import Test
 class CFScraper(Scraper):
     def __init__(self, url) -> None:
         super().__init__(url)
-        response = self.get_response()
+        response = self._Scraper__getResponse()
         html_content = response.content
         self.soup = BeautifulSoup(html_content, 'lxml')
 

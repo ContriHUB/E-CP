@@ -12,7 +12,7 @@ class Scraper:
     def __init__(self, url) -> None:
         self.url = url
 
-    def get_response(self):
+    def __getResponse(self):
         # Because request only makes http request calls, change our https link to http
         protocol , link = self.url.split(':')
         protocol = 'http'

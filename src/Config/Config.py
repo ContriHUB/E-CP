@@ -75,7 +75,10 @@ class Config():
         with open(self.config_file_path, 'r') as config_file:
             config = json.load(config_file)
         proxy =  config['proxy']
-        proxy = {'http':'http://'+proxy,'https':'https://'+proxy}
+        if len(proxy)==0:
+            proxy = None
+        else:
+            proxy = {'http':'http://'+proxy,'https':'https://'+proxy}
         return proxy
     
     def remove_proxy(self):
