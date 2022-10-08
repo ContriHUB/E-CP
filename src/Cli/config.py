@@ -28,6 +28,11 @@ def set_lang(lang):
 def set_temp(path):
     try:
         config = Config()
+        if config.is_text_file(path):
+            config.set_template(path)
+            click.echo(click.style('Template path set', fg='green'))
+        else:
+            click.echo(click.style('Template must be a text file', fg='red'))
         config.set_template(path)
         click.echo(click.style('Template path set', fg='green'))
     except Exception as e:

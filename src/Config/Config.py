@@ -55,6 +55,14 @@ class Config():
         
         return config['template']
 
+    def is_text_file(self, file_name):
+        try:
+            with open(file_name, 'tr') as check_file:
+                check_file.read()
+                return True
+        except:
+            return False
+            
     def set_proxy(self, address):
         with open(self.config_file_path, 'r+') as config_file:
             config = json.load(config_file)
