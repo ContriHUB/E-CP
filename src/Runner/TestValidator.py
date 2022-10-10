@@ -80,13 +80,9 @@ class TestValidator:
                                     click.echo(click.style('WA', bg='red'))
                                 click.echo()
                     else:
-                        click.echo(click.style('There is no expected output file, do you wish to continue? (y/N)', fg='red'))
-                        choice = input()
-                        if choice == 'y':
-                            click.echo(click.style(output_file[6:-4], fg='blue'))
-                            click.echo()
-                            with open(output_file) as output:
-                                self.__show_output(output)
-                        else:
-                            click.echo(click.style('Code execution stopped for input_{}.txt as there is no expected output file'.format(output_file[7:-4]), fg='red', bold=True))
-                            click.echo()
+                        click.echo(click.style(output_file[6:-4], fg='blue'))
+                        click.echo()
+                        with open(output_file) as output:
+                            self.__show_output(output)
+                        click.echo(click.style('There is no expected output file for input_{}.txt.'.format(output_file[7:-4]), fg='red', bold=True))
+                        click.echo()
