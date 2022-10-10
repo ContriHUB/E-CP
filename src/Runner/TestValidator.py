@@ -49,24 +49,40 @@ class TestValidator:
 
         return match       
 
+    '''Function to show output if expected output file is not present'''
+    def __show_output(self, output):
+        output_lines = output.readlines()
+        click.echo(click.style('Code output: ', fg='blue', bold=True))
+        click.echo()
+    
+        for index in range(len(output_lines)):
+            click.echo(click.style(output_lines[index].rstrip(), bg='green', fg='white'))
+
+        click.echo()
+
     '''Function to validate output'''
     def validate_output(self):
         current_dir = os.listdir(self.dest)
-        for expected_file in current_dir:
-            if len(expected_file) >= 8 :
-                if expected_file[:8] == 'expected' and expected_file[-4:] == '.txt':
-                    for output_file in current_dir:
-                        if len(output_file) >= 6 : 
-                            if output_file[:6] == 'output' and output_file[-4:] == '.txt':
-                                if expected_file[8:-4] == output_file[6:-4]:
-                                    click.echo(click.style(output_file[6:-4], fg='blue'))
-                                    click.echo()
-                                    with open(expected_file) as expected:
-                                        with open(output_file) as output:
-                                            result = self.__compare_output(expected, output)
-                                            click.echo()
-                                            if result:
-                                                click.echo(click.style('AC', bg='green'))
-                                            else :
-                                                click.echo(click.style('WA', bg='red'))
-                                            click.echo()
+        for output_file in current_dir:
+            if len(output_file) >= 6 : 
+                if output_file[:6] == 'output' and output_file[-4:] == '.txt':
+                    expected_file = 'expected' + output_file[6:]
+                    if expected_file in current_dir:
+                        click.echo(click.style(output_file[6:-4], fg='blue'))
+                        click.echo()
+                        with open(expected_file) as expected:
+                            with open(output_file) as output:
+                                result = self.__compare_output(expected, output)
+                                click.echo()
+                                if result:
+                                    click.echo(click.style('AC', bg='green'))
+                                else :
+                                    click.echo(click.style('WA', bg='red'))
+                                click.echo()
+                    else:
+                        click.echo(click.style(output_file[6:-4], fg='blue'))
+                        click.echo()
+                        with open(output_file) as output:
+                            self.__show_output(output)
+                        click.echo(click.style('There is no expected output file for input_{}.txt.'.format(output_file[7:-4]), fg='red', bold=True))
+                        click.echo()
