@@ -5,7 +5,7 @@
 import click
 from ..Config.Config import Config
 from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
-
+import requests
 @click.group()
 def config():
     pass
@@ -33,6 +33,8 @@ def set_temp(path):
             click.echo(click.style('Template path set', fg='green'))
         else:
             click.echo(click.style('Template must be a text file', fg='red'))
+        config.set_template(path)
+        click.echo(click.style('Template path set', fg='green'))
     except Exception as e:
         click.echo(e)
 
@@ -45,6 +47,27 @@ def get_lang():
     except Exception as e:
         click.echo(e)
 
+@click.command()
+@click.argument('proxy', type=str)
+def set_proxy(proxy):
+    try:
+        config = Config()
+        config.set_proxy(proxy)
+        click.echo(click.style('Proxy set to '+proxy, fg='green'))
+    except Exception as e:
+        click.echo(e)
+
+@click.command()
+def remove_proxy():
+    try:
+        config = Config()
+        config.remove_proxy()
+        click.echo(click.style('Proxy removed sucessfully.', fg='green'))
+    except Exception as e:
+        click.echo(e)
+
 config.add_command(get_lang)
 config.add_command(set_lang)
 config.add_command(set_temp)
+config.add_command(set_proxy)
+config.add_command(remove_proxy)

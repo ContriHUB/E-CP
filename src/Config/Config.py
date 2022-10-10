@@ -62,3 +62,29 @@ class Config():
                 return True
         except:
             return False
+
+    def set_proxy(self, address):
+        with open(self.config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            config['proxy'] = address
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
+
+    def get_proxy(self):
+        with open(self.config_file_path, 'r') as config_file:
+            config = json.load(config_file)
+        proxy =  config['proxy']
+        if len(proxy)==0:
+            proxy = {'http':None,'https':None}
+        else:
+            proxy = {'http':'http://'+proxy,'https':'https://'+proxy}
+        return proxy
+    
+    def remove_proxy(self):
+        with open(self.config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            config['proxy'] = ""
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
