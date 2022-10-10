@@ -21,6 +21,15 @@
     Currently value of `<language>` can only be 'python' or 'cpp' are supported
 
 *   ```
+    ecp profile <username>
+    ```
+    Example: 
+    ```
+    ecp profile tourist
+    ```
+    This will make a profile card in the terminal.
+    
+*   ```
     ecp config set-proxy <username:password@ip:port>
     ```
     Example: 
