@@ -98,12 +98,12 @@ class Config():
         config_file_path = self.config_file_path
         with open(config_file_path, 'r+') as config_file:
             config = json.load(config_file)
-            config["firstname"] = html_content["result"][0]["firstName"]
-            config["lastname"] = html_content["result"][0]["lastName"]
-            config["rating"] = str(html_content["result"][0]["rating"]),
-            config["contri"] = str(html_content["result"][0]["contribution"]),
-            config["rank"] = str(html_content["result"][0]["rank"]),
-            config["maxrating"] = str(html_content["result"][0]["maxRating"])
+            config["user"]["firstname"] = html_content["result"][0]["firstName"]
+            config["user"]["lastname"] = html_content["result"][0]["lastName"]
+            config["user"]["rating"] = str(html_content["result"][0]["rating"]),
+            config["user"]["contri"] = str(html_content["result"][0]["contribution"]),
+            config["user"]["rank"] = str(html_content["result"][0]["rank"]),
+            config["user"]["maxrating"] = str(html_content["result"][0]["maxRating"])
             config_file.seek(0)
             config_file.truncate()
             config_file.write(json.dumps(config))
@@ -112,12 +112,4 @@ class Config():
         config_file_path = self.config_file_path
         with open(config_file_path, 'r') as config_file:
             config = json.load(config_file)
-        user = {
-            "firstname":config["firstname"],
-            "lastname":config["lastname"],
-            "rating":config["rating"],
-            "contri":config["contri"],
-            "rank":config["rank"],
-            "maxrating":config["maxrating"]
-        }
-        return user
+        return config["user"]
