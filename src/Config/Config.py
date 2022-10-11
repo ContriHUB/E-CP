@@ -1,5 +1,6 @@
 import json
 import os
+import requests
 from pathlib import Path
 from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
 
@@ -88,3 +89,35 @@ class Config():
             config_file.seek(0)
             config_file.truncate()
             config_file.write(json.dumps(config))
+
+    def set_user(self, user):
+        response = requests.get(url='http://codeforces.com/api/user.info?handles='+user,proxies=self.get_proxy())
+        if(response.status_code!=200):
+            raise UsernameError('User not Found')
+        html_content = response.json()
+        config_file_path = self.config_file_path
+        with open(config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            config["firstname"] = html_content["result"][0]["firstName"]
+            config["lastname"] = html_content["result"][0]["lastName"]
+            config["rating"] = str(html_content["result"][0]["rating"]),
+            config["contri"] = str(html_content["result"][0]["contribution"]),
+            config["rank"] = str(html_content["result"][0]["rank"]),
+            config["maxrating"] = str(html_content["result"][0]["maxRating"])
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
+    
+    def get_user(self):
+        config_file_path = self.config_file_path
+        with open(config_file_path, 'r') as config_file:
+            config = json.load(config_file)
+        user = {
+            "firstname":config["firstname"],
+            "lastname":config["lastname"],
+            "rating":config["rating"],
+            "contri":config["contri"],
+            "rank":config["rank"],
+            "maxrating":config["maxrating"]
+        }
+        return user

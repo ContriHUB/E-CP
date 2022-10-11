@@ -66,8 +66,27 @@ def remove_proxy():
     except Exception as e:
         click.echo(e)
 
+@click.command()
+@click.argument("user",type=str)
+def set_user(user):
+    try:
+        config = Config()
+        config.set_user(user)
+        click.echo(click.style('User information have been fetched.', fg='green'))
+    except Exception as e:
+        click.echo(e)
+@click.command()
+def get_user():
+    try:
+        config = Config()
+        config.get_user()
+    except Exception as e:
+        click.echo(e)
+
 config.add_command(get_lang)
 config.add_command(set_lang)
 config.add_command(set_temp)
 config.add_command(set_proxy)
 config.add_command(remove_proxy)
+config.add_command(set_user)
+config.add_command(get_user)
