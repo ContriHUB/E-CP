@@ -91,7 +91,8 @@ class Config():
             config_file.write(json.dumps(config))
 
     def set_user(self, user):
-        response = requests.get(url='http://codeforces.com/api/user.info?handles='+user,proxies=self.get_proxy())
+        address='http://codeforces.com/api/user.info?handles='+user
+        response = requests.get(url=address,proxies=self.get_proxy())
         if(response.status_code!=200):
             raise UsernameError('User not Found')
         html_content = response.json()
