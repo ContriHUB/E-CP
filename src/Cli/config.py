@@ -79,7 +79,7 @@ def set_user(user):
 def get_user():
     try:
         config = Config()
-        config.get_user()
+        print(config.get_user())
     except Exception as e:
         click.echo(e)
 
