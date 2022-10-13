@@ -33,7 +33,7 @@ class CFScraper(Scraper):
         length = len(input_tags)
 
         for index in range(length):
-            input = input_tags[index].find('pre').text.strip()
+            input = "\n".join([x.text for x in input_tags[index].find('pre').findChildren()])
             output = output_tags[index].find('pre').text.strip()
             tests.append(Test(input, output))
         
