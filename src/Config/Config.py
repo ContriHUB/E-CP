@@ -94,7 +94,7 @@ class Config():
         address='http://codeforces.com/api/user.info?handles='+user
         response = requests.get(url=address,proxies=self.get_proxy())
         if(response.status_code!=200):
-            raise UsernameError('User not Found')
+            raise UsernameError('UsernameNotFound')
         html_content = response.json()
         config_file_path = self.config_file_path
         with open(config_file_path, 'r+') as config_file:
