@@ -7,6 +7,10 @@ from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
 '''
     Class to manage config related commands
 '''
+class UsernameNotFound(Exception):
+    def __init__(self, msg):
+        super().__init__(self, msg)
+
 class Config():
     supported_lang = ['cpp', 'python', 'java']
 
@@ -91,10 +95,9 @@ class Config():
             config_file.write(json.dumps(config))
 
     def set_user(self, user):
-        address='http://codeforces.com/api/user.info?handles='+user
-        response = requests.get(url=address,proxies=self.get_proxy())
+        response = requests.get(url='http://codeforces.com/api/user.info?handles='+user,proxies=self.get_proxy())
         if(response.status_code!=200):
-            raise UsernameError('UsernameNotFound')
+            raise UsernameNotFound('User not found')
         html_content = response.json()
         config_file_path = self.config_file_path
         with open(config_file_path, 'r+') as config_file:
