@@ -1,16 +1,13 @@
 import json
 import os
 import requests
+import click
 from pathlib import Path
 from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
-
+from .exceptions.UserNotFound import UsernameNotFound
 '''
     Class to manage config related commands
 '''
-class UsernameNotFound(Exception):
-    def __init__(self, msg):
-        super().__init__(self, msg)
-
 class Config():
     supported_lang = ['cpp', 'python', 'java']
 
@@ -97,7 +94,7 @@ class Config():
     def set_user(self, user):
         response = requests.get(url='http://codeforces.com/api/user.info?handles='+user,proxies=self.get_proxy())
         if(response.status_code!=200):
-            raise UsernameNotFound('User not found')
+            raise UsernameNotFound()
         html_content = response.json()
         config_file_path = self.config_file_path
         with open(config_file_path, 'r+') as config_file:
@@ -111,7 +108,6 @@ class Config():
             config_file.seek(0)
             config_file.truncate()
             config_file.write(json.dumps(config))
-    
     def get_user(self):
         config_file_path = self.config_file_path
         with open(config_file_path, 'r') as config_file:
