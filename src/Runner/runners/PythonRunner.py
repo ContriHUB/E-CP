@@ -4,6 +4,7 @@ import subprocess
 from pathlib import Path
 from .Runner import Runner
 from ..exceptions import CodeError
+import time
 
 '''
     Class to handlle python code execution
@@ -13,7 +14,12 @@ class PythonRunner(Runner):
         super().__init__(dest, code_file)
     
     def __execute_code(self, stdin = subprocess.PIPE):
-        return subprocess.run(['python', 'code.py'], capture_output=True, text=True, stdin=stdin)
+        start_time = time.process_time()
+        exec_result = subprocess.run(['python', 'code.py'], capture_output=True, text=True, stdin=stdin)
+        end_time = time.process_time()
+        runtime = round((end_time - start_time)*1000, 4)
+
+        return exec_result, runtime
 
     def run_on_test_files(self):
         current_dir = os.listdir(self.dest)
@@ -26,7 +32,8 @@ class PythonRunner(Runner):
                     input_file_path = Path(input_file_name)
                     with open(input_file_path, 'r') as content:   
                         # Run executable file with sample input files
-                        exec_result = self.__execute_code(content)
+                        exec_result, runtime = self.__execute_code(content)
+                        self.runtime = runtime
 
                         if exec_result.returncode != 0:
                             raise CodeError(exec_result.stderr, 'runtime error', exec_result.returncode)
@@ -38,5 +45,6 @@ class PythonRunner(Runner):
                             output_file.write(exec_result.stdout.strip()) 
     
     def run_on_custom(self):
-        exec_result = self.__execute_code()
+        exec_result, runtime = self.__execute_code()
+        self.runtime = runtime
         click.echo(exec_result.stdout)

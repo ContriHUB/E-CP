@@ -19,6 +19,9 @@ def run_cpp_code(dest, custom):
             # validate_output(dest)
             validator = TestValidator(dest)
             validator.validate_output()
+
+        click.echo(f"Runtime: {runner.runtime} ms")
+
         
     except CodeError as e:
         click.echo(e)
@@ -38,6 +41,8 @@ def run_java_code(dest, custom):
             validator = TestValidator(dest)
             validator.validate_output()
         
+        click.echo(f"Runtime: {runner.runtime} ms")
+        
     except CodeError as e:
         click.echo(e)
 
@@ -56,6 +61,9 @@ def run_python_code(dest, custom):
             # validate_output(dest)
             validator = TestValidator(dest)
             validator.validate_output()
+
+        click.echo(f"Runtime: {runner.runtime} ms")
+
 
     except CodeError as e:
         click.echo(e)

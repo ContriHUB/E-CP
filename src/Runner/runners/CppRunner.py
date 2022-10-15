@@ -4,6 +4,7 @@ import subprocess
 from pathlib import Path
 from .Runner import Runner
 from ..exceptions.CodeError import CodeError
+import time
 
 '''
     Class to handle C++ code execution
@@ -17,7 +18,12 @@ class CppRunner(Runner):
         return subprocess.run(['g++', self.code_file, '-o', 'a'], capture_output=True, text=True)
 
     def __execute_code(self, exec_file, stdin = None):
-        return subprocess.run([exec_file], capture_output=True, text=True, stdin=stdin)
+        start_time = time.process_time()
+        exec_result = subprocess.run([exec_file], capture_output=True, text=True, stdin=stdin)
+        end_time = time.process_time()
+        runtime = round((end_time - start_time)*1000, 4)
+
+        return exec_result, runtime
 
     def run_on_test_files(self):
         current_dir = os.listdir(self.dest)
@@ -30,7 +36,8 @@ class CppRunner(Runner):
                     input_file_path = Path(input_file_name)
                     with open(input_file_path, 'r') as content:   
                         # Run executable file with sample input files
-                        exec_result = self.__execute_code('./a', content)
+                        exec_result, runtime = self.__execute_code('./a', content)
+                        self.runtime = runtime
 
                         if exec_result.returncode != 0:
                             raise CodeError(exec_result.stderr, 'runtime error', exec_result.returncode)
@@ -42,5 +49,6 @@ class CppRunner(Runner):
                             output_file.write(exec_result.stdout.strip()) 
 
     def run_on_custom(self):
-        exec_result = self.__execute_code(Path(self.dest, 'a'))
+        exec_result, runtime = self.__execute_code(Path(self.dest, 'a'))
+        self.runtime = runtime
         click.echo(exec_result.stdout)
