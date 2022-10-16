@@ -93,7 +93,8 @@ class Config():
             config_file.write(json.dumps(config))
 
     def set_user(self, user):
-        response = requests.get(url='http://codeforces.com/api/user.info?handles='+user,proxies=self.get_proxy())
+        api_url = 'http://codeforces.com/api/user.info?handles='
+        response = requests.get(url=api_url+user,proxies=self.get_proxy())
         if(response.status_code!=200):
             raise UsernameNotFound()
         html_content = response.json()
