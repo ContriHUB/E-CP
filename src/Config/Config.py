@@ -5,6 +5,7 @@ import click
 from pathlib import Path
 from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
 from .exceptions.UserNotFound import UsernameNotFound
+from .exceptions.UserNotSet import UserNotSet
 '''
     Class to manage config related commands
 '''
@@ -112,4 +113,6 @@ class Config():
         config_file_path = self.config_file_path
         with open(config_file_path, 'r') as config_file:
             config = json.load(config_file)
+        if(len(config["user"]["firstname"])==0):
+            raise UserNotSet
         return config["user"]
