@@ -80,7 +80,7 @@ class Config():
             config = json.load(config_file)
         proxy =  config['proxy']
         if len(proxy)==0:
-            proxy = {'http':None}
+            proxy = {'http':'','https':''}
         else:
             proxy = {'http':'http://'+proxy}
         return proxy
@@ -95,7 +95,7 @@ class Config():
 
     def set_user(self, user):
         api_url = "https://codeforces.com/api/user.info?handles="
-        response = requests.get(url=api_url + user, proxies = self.get_proxy())
+        response = requests.get(url = api_url + user, proxies = self.get_proxy())
         if(response.status_code != 200):
             raise UsernameNotFound(user)
         html_content = response.json()
