@@ -6,6 +6,7 @@ from pathlib import Path
 from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
 from .exceptions.UserNotFound import UsernameNotFound
 from .exceptions.UserNotSet import UserNotSet
+from requests.adapters import HTTPAdapter, Retry
 '''
     Class to manage config related commands
 '''
@@ -79,9 +80,9 @@ class Config():
             config = json.load(config_file)
         proxy =  config['proxy']
         if len(proxy)==0:
-            proxy = {'http':None,'https':None}
+            proxy = {'http':None}
         else:
-            proxy = {'http':'http://'+proxy,'https':'https://'+proxy}
+            proxy = {'http':'http://'+proxy}
         return proxy
     
     def remove_proxy(self):
@@ -93,10 +94,10 @@ class Config():
             config_file.write(json.dumps(config))
 
     def set_user(self, user):
-        api_url = 'http://codeforces.com/api/user.info?handles='
-        response = requests.get(url=api_url+user,proxies=self.get_proxy())
-        if(response.status_code!=200):
-            raise UsernameNotFound()
+        api_url = "https://codeforces.com/api/user.info?handles="
+        response = requests.get(url=api_url + user, proxies = self.get_proxy())
+        if(response.status_code != 200):
+            raise UsernameNotFound(user)
         html_content = response.json()
         config_file_path = self.config_file_path
         with open(config_file_path, 'r+') as config_file:
@@ -110,10 +111,11 @@ class Config():
             config_file.seek(0)
             config_file.truncate()
             config_file.write(json.dumps(config))
+
     def get_user(self):
         config_file_path = self.config_file_path
         with open(config_file_path, 'r') as config_file:
             config = json.load(config_file)
-        if(len(config["user"]["firstname"])==0):
-            raise UserNotSet
+        if(len(config["user"]["firstname"]) == 0):
+            raise UserNotSet()
         return config["user"]
