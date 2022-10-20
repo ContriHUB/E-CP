@@ -74,14 +74,14 @@ def set_user(user):
         config.set_user(user)
         click.echo(click.style('User information have been fetched.', fg='green'))
     except Exception as e:
-        click.echo(e)
+        click.echo(click.style(e,fg='red'))
 @click.command()
 def get_user():
     try:
         config = Config()
         print(config.get_user())
     except Exception as e:
-        click.echo(e)
+        click.echo(click.style(e,fg='red'))
 
 config.add_command(get_lang)
 config.add_command(set_lang)
