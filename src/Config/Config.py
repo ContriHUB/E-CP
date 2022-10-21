@@ -104,10 +104,10 @@ class Config():
             config = json.load(config_file)
             config["user"]["firstname"] = html_content["result"][0]["firstName"]
             config["user"]["lastname"] = html_content["result"][0]["lastName"]
-            config["user"]["rating"] = str(html_content["result"][0]["rating"])
-            config["user"]["contri"] = str(html_content["result"][0]["contribution"])
-            config["user"]["rank"] = str(html_content["result"][0]["rank"])
-            config["user"]["maxrating"] = str(html_content["result"][0]["maxRating"])
+            config["user"]["rating"] = html_content["result"][0]["rating"]
+            config["user"]["contri"] = html_content["result"][0]["contribution"]
+            config["user"]["rank"] = html_content["result"][0]["rank"]
+            config["user"]["maxrating"] = html_content["result"][0]["maxRating"]
             config_file.seek(0)
             config_file.truncate()
             config_file.write(json.dumps(config))
