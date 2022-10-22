@@ -79,7 +79,7 @@ def set_user(user):
 def get_user():
     try:
         config = Config()
-        click.echo(config.get_user())
+        config.get_user()
     except Exception as e:
         click.echo(click.style(e,fg='red'))
 
