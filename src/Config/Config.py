@@ -118,4 +118,5 @@ class Config():
             config = json.load(config_file)
         if(len(config["user"]["firstname"]) == 0):
             raise UserNotSet()
-        return config["user"]
+        for info in config["user"]:
+            print(info + " : " + str(config["user"][info]))
