@@ -9,6 +9,12 @@ from ..Scrapers.CFScraper import CFScraper
 from ..Scrapers.CCScraper import CCScraper
 from ..Problem.ProblemManager import ProblemManager
 
+class UnsupportedPlatform(Exception):
+    '''Raised when an unsupported website url is used'''
+    def __init__(self):
+        self.message = "UnsupportedPlatform: url points to unsupported website"
+        super().__init__(self.message)
+
 @click.command()
 @click.argument('url', type=str)
 @click.argument('dest', type=str, default='.')
@@ -18,6 +24,8 @@ def problem(dest, url):
             scraper = CCScraper(url)
         elif url.find("codeforces.com") != -1:
             scraper = CFScraper(url)
+        else:
+            raise UnsupportedPlatform
         problem = scraper.get_problem()
 
         # Create directory

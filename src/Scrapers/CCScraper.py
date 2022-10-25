@@ -13,7 +13,7 @@ import time
 class CCScraper(Scraper):
     def __init__(self, url) -> None:
         super().__init__(url)
-        response = self._Scraper__getResponse(isDynamic=True)
+        response = self._Scraper__getResponse(is_dynamic=True)
         html_content = response
         self.soup = BeautifulSoup(html_content, 'lxml')
 
