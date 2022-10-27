@@ -16,7 +16,7 @@ class Scraper:
     def __init__(self, url) -> None:
         self.url = url
     
-    def __getDynamicResponse(self):
+    def __get_dynamic_response(self):
         url = self.url
         os.environ["PATH"] += os.pathsep + os.getcwd().split("src",1)[0]
         options = Options()
@@ -27,7 +27,7 @@ class Scraper:
         response = driver.page_source        
         return response
 
-    def __getStaticResponse(self):
+    def __get_static_response(self):
         protocol, link = self.url.split(':')
         protocol = 'http'
         url = protocol + ':' + link
@@ -35,12 +35,12 @@ class Scraper:
         response = requests.get(url,proxies = proxy,verify = False)
         return response
     
-    def __getResponse(self, is_dynamic=False):
+    def __get_response(self, is_dynamic=False):
         # Because request only makes http request calls, change our https link to http
         if is_dynamic:
-            response = self.__getDynamicResponse()
+            response = self.__get_dynamic_response()
         else:
-            response = self.__getStaticResponse()
+            response = self.__get_static_response()
         return response
 
     @abstractmethod

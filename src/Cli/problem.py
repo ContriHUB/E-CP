@@ -8,12 +8,7 @@ import os
 from ..Scrapers.CFScraper import CFScraper
 from ..Scrapers.CCScraper import CCScraper
 from ..Problem.ProblemManager import ProblemManager
-
-class UnsupportedPlatform(Exception):
-    '''Raised when an unsupported website url is used'''
-    def __init__(self):
-        self.message = "UnsupportedPlatform: url points to unsupported website"
-        super().__init__(self.message)
+from .exceptions.UnsupportedPlatform import UnsupportedPlatform
 
 @click.command()
 @click.argument('url', type=str)
