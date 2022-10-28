@@ -6,14 +6,21 @@ from pathlib import Path
 import click
 import os
 from ..Scrapers.CFScraper import CFScraper
+from ..Scrapers.CCScraper import CCScraper
 from ..Problem.ProblemManager import ProblemManager
+from .exceptions.UnsupportedPlatform import UnsupportedPlatform
 
 @click.command()
 @click.argument('url', type=str)
 @click.argument('dest', type=str, default='.')
 def problem(dest, url):
     try:
-        scraper = CFScraper(url)
+        if url.find("codechef.com") != -1:
+            scraper = CCScraper(url)
+        elif url.find("codeforces.com") != -1:
+            scraper = CFScraper(url)
+        else:
+            raise UnsupportedPlatform()
         problem = scraper.get_problem()
 
         # Create directory
