@@ -20,7 +20,7 @@ def problem(dest, url):
         elif url.find("codeforces.com") != -1:
             scraper = CFScraper(url)
         else:
-            raise UnsupportedPlatform
+            raise UnsupportedPlatform()
         problem = scraper.get_problem()
 
         # Create directory
