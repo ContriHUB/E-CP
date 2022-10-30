@@ -21,6 +21,24 @@
     Currently value of `<language>` can only be 'python' or 'cpp' are supported
 
 *   ```
+    ecp config set-user <username>
+    ```
+    Example: 
+    ```
+    ecp config set-user tourist
+    ```
+    This fetch info about the user from config.json file.
+
+*   ```
+    ecp config get-user
+    ```
+    Example: 
+    ```
+    ecp config get-user
+    ```
+    This will add necessary info about the user to config.json file.
+
+*   ```
     ecp config set-proxy <username:password@ip:port>
     ```
     Example: 

@@ -1,8 +1,12 @@
 import json
 import os
+import requests
+import click
 from pathlib import Path
 from ..Runner.exceptions.UnsupportedLanguage import UnsupportedLanguage
-
+from .exceptions.UserNotFound import UsernameNotFound
+from .exceptions.UserNotSet import UserNotSet
+from requests.adapters import HTTPAdapter, Retry
 '''
     Class to manage config related commands
 '''
@@ -76,9 +80,9 @@ class Config():
             config = json.load(config_file)
         proxy =  config['proxy']
         if len(proxy)==0:
-            proxy = {'http':None,'https':None}
+            proxy = {'http':'','https':''}
         else:
-            proxy = {'http':'http://'+proxy,'https':'https://'+proxy}
+            proxy = {'http':'http://'+proxy}
         return proxy
     
     def remove_proxy(self):
@@ -88,3 +92,31 @@ class Config():
             config_file.seek(0)
             config_file.truncate()
             config_file.write(json.dumps(config))
+
+    def set_user(self, user):
+        api_url = "https://codeforces.com/api/user.info?handles="
+        response = requests.get(url = api_url + user, proxies = self.get_proxy())
+        if(response.status_code != 200):
+            raise UsernameNotFound(user)
+        html_content = response.json()
+        config_file_path = self.config_file_path
+        with open(config_file_path, 'r+') as config_file:
+            config = json.load(config_file)
+            config["user"]["firstname"] = html_content["result"][0]["firstName"]
+            config["user"]["lastname"] = html_content["result"][0]["lastName"]
+            config["user"]["rating"] = html_content["result"][0]["rating"]
+            config["user"]["contri"] = html_content["result"][0]["contribution"]
+            config["user"]["rank"] = html_content["result"][0]["rank"]
+            config["user"]["maxrating"] = html_content["result"][0]["maxRating"]
+            config_file.seek(0)
+            config_file.truncate()
+            config_file.write(json.dumps(config))
+
+    def get_user(self):
+        config_file_path = self.config_file_path
+        with open(config_file_path, 'r') as config_file:
+            config = json.load(config_file)
+        if(len(config["user"]["firstname"]) == 0):
+            raise UserNotSet()
+        for info in config["user"]:
+            print(info + " : " + str(config["user"][info]))

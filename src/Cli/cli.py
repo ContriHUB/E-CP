@@ -7,7 +7,6 @@ from .problem import problem
 from .runner import run
 from .config import config
 from .test import test
-
 @click.group()
 def entry_point():
     pass
